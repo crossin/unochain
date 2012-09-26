@@ -59,3 +59,9 @@ bool UnoBlock::init( int idx, int clr )
 	}while(0);
 	return bRet;
 }
+
+cocos2d::CCRect UnoBlock::getRect()
+{
+	CCRect box = sprite->boundingBox();
+	return CCRectMake(getPosition().x + box.origin.x, getPosition().y + box.origin.y, box.size.width, box.size.height);
+}

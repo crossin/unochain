@@ -15,7 +15,14 @@ public:
 	static CCScene* scene();
 	CREATE_FUNC(ScenePlay);
 
+	//void updateFrame(CCTime dt);
+	void ccTouchesBegan(CCSet* touches, CCEvent* event);
+	void ccTouchesMoved(CCSet* touches, CCEvent* event);
+	void ccTouchesEnded(CCSet* touches, CCEvent* event);
+
+	
 	UnoBlock* arena[8][12];
+
 };
 
 
