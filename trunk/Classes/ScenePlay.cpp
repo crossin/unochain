@@ -32,15 +32,6 @@ bool ScenePlay::init()
 	do 
 	{
 		CC_BREAK_IF(! CCLayer::init());
-
-
-// 		CCSprite* pSprite = CCSprite::create("helloworld.png");
-// 		CC_BREAK_IF(! pSprite);
-// 
-// 		pSprite->setPosition(ccp(0, 240));
-// 
-// 		this->addChild(pSprite, 0);
-
 		srand(time(0)); 
 
 		// init game
