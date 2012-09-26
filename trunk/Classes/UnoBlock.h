@@ -14,6 +14,8 @@ public:
 	virtual bool init(int idx, int clr);
 	//CREATE_FUNC(UnoBlock);
 
+	CCRect getRect();
+
 	CCSprite* sprite;
 	int m_index;
 	int m_color;

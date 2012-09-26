@@ -48,9 +48,50 @@ bool ScenePlay::init()
 			}
 		}
 
-
 		bRet = true;
 	} while (0);
 
+	setTouchEnabled(true);
+
+	//schedule( schedule_selector(ScenePlay::updateFrame));
+
 	return bRet;
 }
+
+
+void ScenePlay::ccTouchesBegan( CCSet* touches, CCEvent* event )
+{
+	CCSetIterator it = touches->begin();
+	CCTouch* touch = (CCTouch*)(*it);
+	CCPoint m_tTouchPos = convertTouchToNodeSpace(touch);
+
+	UnoBlock* pBlock;
+	CCRect rect;
+	for (int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 12; j++)
+		{
+			pBlock = arena[i][j];
+			rect = pBlock->getRect();
+			if (rect.containsPoint(m_tTouchPos))
+			{
+				pBlock->sprite->setOpacity(122);
+			}
+		}
+	}
+}
+
+void ScenePlay::ccTouchesMoved( CCSet* touches, CCEvent* event )
+{
+	ccTouchesBegan(touches, event);
+}
+
+void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
+{
+
+}
+
+// void ScenePlay::updateFrame( CCTime dt )
+// {
+// 
+// }
