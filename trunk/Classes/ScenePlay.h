@@ -20,9 +20,11 @@ public:
 	void ccTouchesMoved(CCSet* touches, CCEvent* event);
 	void ccTouchesEnded(CCSet* touches, CCEvent* event);
 
+	void touchBlock(UnoBlock* block);
 	
 	UnoBlock* arena[8][12];
-
+	//UnoBlock* blockLast;
+	CCArray* chainSelected;
 };
 
 

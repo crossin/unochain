@@ -15,8 +15,12 @@ public:
 	//CREATE_FUNC(UnoBlock);
 
 	CCRect getRect();
+	void setCoord(int c, int r);
 
 	CCSprite* sprite;
-	int m_index;
-	int m_color;
+	int unoIndex;
+	int unoColor;
+	bool inChain;
+	int col;
+	int row;
 };

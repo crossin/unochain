@@ -7,6 +7,11 @@ ScenePlay::ScenePlay(void)
 
 ScenePlay::~ScenePlay(void)
 {
+	if (chainSelected)
+	{
+		chainSelected->release();
+		chainSelected = NULL;
+	}
 }
 
 CCScene* ScenePlay::scene()
@@ -42,11 +47,20 @@ bool ScenePlay::init()
 			{
 				pSymbol = UnoBlock::unoblock();
 				CC_BREAK_IF(!pSymbol);
-				pSymbol->setPosition(ccp(i*40+20, j*40+20));
+				pSymbol->setCoord(i, j);
 				addChild(pSymbol);
 				arena[i][j] = pSymbol;
 			}
 		}
+
+		chainSelected = CCArray::create();
+		chainSelected->retain();
+
+		//blockLast = NULL;
+
+
+
+
 
 		bRet = true;
 	} while (0);
@@ -75,7 +89,7 @@ void ScenePlay::ccTouchesBegan( CCSet* touches, CCEvent* event )
 			rect = pBlock->getRect();
 			if (rect.containsPoint(m_tTouchPos))
 			{
-				pBlock->sprite->setOpacity(122);
+				touchBlock(pBlock);
 			}
 		}
 	}
@@ -88,8 +102,45 @@ void ScenePlay::ccTouchesMoved( CCSet* touches, CCEvent* event )
 
 void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 {
-
+	CCObject* obj;
+	UnoBlock* pBlock;
+	CCARRAY_FOREACH(chainSelected, obj)
+	{
+		pBlock = (UnoBlock*)obj;
+		pBlock->inChain = false;
+		pBlock->sprite->setOpacity(255);
+	}
+	chainSelected->removeAllObjects();
 }
+
+void ScenePlay::touchBlock( UnoBlock* block )
+{
+	if (!block->inChain)
+	{
+		if (chainSelected->count() == 0)
+		{
+			//blockLast = block;
+			chainSelected->addObject(block);
+			block->inChain = true;
+			block->sprite->setOpacity(122);
+		} 
+		else
+		{
+			UnoBlock* blockLast = (UnoBlock*)chainSelected->lastObject();
+			// adjacent && (same color/index)
+			if (((block->col==blockLast->col && abs(block->row-blockLast->row)==1)
+					|| (block->row==blockLast->row && abs(block->col-blockLast->col)==1))
+				&& (block->unoColor == blockLast->unoColor || block->unoIndex == blockLast->unoIndex))
+			{
+				chainSelected->addObject(block);
+				block->inChain = true;
+				block->sprite->setOpacity(122);
+			}
+		}
+	}
+}
+
+
 
 // void ScenePlay::updateFrame( CCTime dt )
 // {
