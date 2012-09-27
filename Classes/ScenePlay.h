@@ -21,7 +21,11 @@ public:
 	void ccTouchesEnded(CCSet* touches, CCEvent* event);
 
 	void touchBlock(UnoBlock* block);
+	void clearBlock(UnoBlock* block);
+	void moveBlocks();
 	
+	int countCol;
+	int countRow;
 	UnoBlock* arena[8][12];
 	//UnoBlock* blockLast;
 	CCArray* chainSelected;

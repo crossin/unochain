@@ -40,10 +40,12 @@ bool ScenePlay::init()
 		srand(time(0)); 
 
 		// init game
+		countCol = 8;
+		countRow = 12;
 		UnoBlock* pSymbol;
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < countCol; i++)
 		{
-			for(int j = 0; j < 12; j++)
+			for(int j = 0; j < countRow; j++)
 			{
 				pSymbol = UnoBlock::unoblock();
 				CC_BREAK_IF(!pSymbol);
@@ -81,9 +83,9 @@ void ScenePlay::ccTouchesBegan( CCSet* touches, CCEvent* event )
 
 	UnoBlock* pBlock;
 	CCRect rect;
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < countCol; i++)
 	{
-		for(int j = 0; j < 12; j++)
+		for(int j = 0; j < countRow; j++)
 		{
 			pBlock = arena[i][j];
 			rect = pBlock->getRect();
@@ -104,12 +106,27 @@ void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 {
 	CCObject* obj;
 	UnoBlock* pBlock;
-	CCARRAY_FOREACH(chainSelected, obj)
+
+	if (chainSelected->count() < 3)
 	{
-		pBlock = (UnoBlock*)obj;
-		pBlock->inChain = false;
-		pBlock->sprite->setOpacity(255);
+		CCARRAY_FOREACH(chainSelected, obj)
+		{
+			pBlock = (UnoBlock*)obj;
+			pBlock->inChain = false;
+			pBlock->sprite->setOpacity(255);
+		}
+	} 
+	else
+	{
+		CCARRAY_FOREACH(chainSelected, obj)
+		{
+			pBlock = (UnoBlock*)obj;
+			removeChild(pBlock, true);
+			clearBlock(pBlock);
+			moveBlocks();
+		}
 	}
+
 	chainSelected->removeAllObjects();
 }
 
@@ -122,7 +139,7 @@ void ScenePlay::touchBlock( UnoBlock* block )
 			//blockLast = block;
 			chainSelected->addObject(block);
 			block->inChain = true;
-			block->sprite->setOpacity(122);
+			block->sprite->setOpacity(127);
 		} 
 		else
 		{
@@ -134,8 +151,35 @@ void ScenePlay::touchBlock( UnoBlock* block )
 			{
 				chainSelected->addObject(block);
 				block->inChain = true;
-				block->sprite->setOpacity(122);
+				block->sprite->setOpacity(127);
 			}
+		}
+	}
+}
+
+void ScenePlay::clearBlock( UnoBlock* block )
+{
+	int c = block->col;
+	for (int i = block->row; i < countRow-1; i++)
+	{
+		arena[c][i] = arena[c][i+1];
+		arena[c][i]->row--;
+	}
+	UnoBlock*pBlock = UnoBlock::unoblock();
+	pBlock->setCoord(c, countRow);
+	pBlock->row--;
+	addChild(pBlock);
+	arena[c][countRow-1] = pBlock;
+}
+
+void ScenePlay::moveBlocks()
+{
+	//UnoBlock* pBlock;
+	for (int i = 0; i < countCol; i++)
+	{
+		for(int j = 0; j < countRow; j++)
+		{
+			arena[i][j]->setCoord(i, j);
 		}
 	}
 }
