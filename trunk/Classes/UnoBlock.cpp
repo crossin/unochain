@@ -76,3 +76,12 @@ void UnoBlock::setCoord( int c, int r )
 	row = r;
 	setPosition(ccp(col*40+20, row*40+20));
 }
+
+void UnoBlock::moveToDest()
+{
+	float dist = getPositionY() - (row*40+20);
+	if (dist > 0)
+	{
+		runAction(CCMoveTo::create(dist/500, ccp(col*40+20, row*40+20)));
+	}
+}
