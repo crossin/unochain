@@ -16,6 +16,7 @@ public:
 
 	CCRect getRect();
 	void setCoord(int c, int r);
+	void moveToDest();
 
 	CCSprite* sprite;
 	int unoIndex;

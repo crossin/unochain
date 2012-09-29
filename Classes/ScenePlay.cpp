@@ -132,6 +132,7 @@ void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 
 void ScenePlay::touchBlock( UnoBlock* block )
 {
+	UnoBlock* blockLast;
 	if (!block->inChain)
 	{
 		if (chainSelected->count() == 0)
@@ -143,7 +144,7 @@ void ScenePlay::touchBlock( UnoBlock* block )
 		} 
 		else
 		{
-			UnoBlock* blockLast = (UnoBlock*)chainSelected->lastObject();
+			blockLast = (UnoBlock*)chainSelected->lastObject();
 			// adjacent && (same color/index)
 			if (((block->col==blockLast->col && abs(block->row-blockLast->row)==1)
 					|| (block->row==blockLast->row && abs(block->col-blockLast->col)==1))
@@ -153,6 +154,17 @@ void ScenePlay::touchBlock( UnoBlock* block )
 				block->inChain = true;
 				block->sprite->setOpacity(127);
 			}
+		}
+	}
+	else
+	{
+		blockLast = (UnoBlock*)chainSelected->lastObject();
+		while ( blockLast != block)
+		{
+			chainSelected->removeLastObject(true);
+			blockLast->inChain = false;
+			blockLast->sprite->setOpacity(255);
+			blockLast = (UnoBlock*)chainSelected->lastObject();
 		}
 	}
 }
@@ -165,9 +177,9 @@ void ScenePlay::clearBlock( UnoBlock* block )
 		arena[c][i] = arena[c][i+1];
 		arena[c][i]->row--;
 	}
-	UnoBlock*pBlock = UnoBlock::unoblock();
-	pBlock->setCoord(c, countRow);
-	pBlock->row--;
+	UnoBlock* pBlock = UnoBlock::unoblock();
+	pBlock->setCoord(c, countRow-1);
+	pBlock->setPositionY(arena[c][countRow-2]->getPositionY()+40);
 	addChild(pBlock);
 	arena[c][countRow-1] = pBlock;
 }
@@ -179,7 +191,8 @@ void ScenePlay::moveBlocks()
 	{
 		for(int j = 0; j < countRow; j++)
 		{
-			arena[i][j]->setCoord(i, j);
+			//arena[i][j]->setCoord(i, j);
+			arena[i][j]->moveToDest();
 		}
 	}
 }
