@@ -1,4 +1,5 @@
 #include "ScenePlay.h"
+#include "SceneEnd.h"
 
 ScenePlay::ScenePlay(void)
 {
@@ -40,12 +41,10 @@ bool ScenePlay::init()
 		srand(time(0)); 
 
 		// init game
-		countCol = 8;
-		countRow = 12;
 		UnoBlock* pSymbol;
-		for (int i = 0; i < countCol; i++)
+		for (int i = 0; i < COUNT_COL; i++)
 		{
-			for(int j = 0; j < countRow; j++)
+			for(int j = 0; j < COUNT_ROW; j++)
 			{
 				pSymbol = UnoBlock::unoblock();
 				CC_BREAK_IF(!pSymbol);
@@ -59,7 +58,7 @@ bool ScenePlay::init()
 		chainSelected->retain();
 
 		//blockLast = NULL;
-
+		gametime = 3;
 
 
 
@@ -69,10 +68,20 @@ bool ScenePlay::init()
 
 	setTouchEnabled(true);
 
-	//schedule( schedule_selector(ScenePlay::updateFrame));
+ 	//schedule( schedule_selector(ScenePlay::update));
+	scheduleUpdate();
 
 	return bRet;
 }
+
+void ScenePlay::update(float dt)
+{
+	gametime -= dt;
+	if (gametime < 0)
+	{
+		CCDirector::sharedDirector()->replaceScene(SceneEnd::scene());
+	}
+};
 
 
 void ScenePlay::ccTouchesBegan( CCSet* touches, CCEvent* event )
@@ -83,9 +92,9 @@ void ScenePlay::ccTouchesBegan( CCSet* touches, CCEvent* event )
 
 	UnoBlock* pBlock;
 	CCRect rect;
-	for (int i = 0; i < countCol; i++)
+	for (int i = 0; i < COUNT_COL; i++)
 	{
-		for(int j = 0; j < countRow; j++)
+		for(int j = 0; j < COUNT_ROW; j++)
 		{
 			pBlock = arena[i][j];
 			rect = pBlock->getRect();
@@ -148,7 +157,7 @@ void ScenePlay::touchBlock( UnoBlock* block )
 			// adjacent && (same color/index)
 			if (((block->col==blockLast->col && abs(block->row-blockLast->row)==1)
 					|| (block->row==blockLast->row && abs(block->col-blockLast->col)==1))
-				&& (block->unoColor == blockLast->unoColor || block->unoIndex == blockLast->unoIndex))
+				&& block->type == blockLast->type)
 			{
 				chainSelected->addObject(block);
 				block->inChain = true;
@@ -172,24 +181,24 @@ void ScenePlay::touchBlock( UnoBlock* block )
 void ScenePlay::clearBlock( UnoBlock* block )
 {
 	int c = block->col;
-	for (int i = block->row; i < countRow-1; i++)
+	for (int i = block->row; i < COUNT_ROW-1; i++)
 	{
 		arena[c][i] = arena[c][i+1];
 		arena[c][i]->row--;
 	}
 	UnoBlock* pBlock = UnoBlock::unoblock();
-	pBlock->setCoord(c, countRow-1);
-	pBlock->setPositionY(arena[c][countRow-2]->getPositionY()+40);
+	pBlock->setCoord(c, COUNT_ROW-1);
+	pBlock->setPositionY(arena[c][COUNT_ROW-2]->getPositionY()+40);
 	addChild(pBlock);
-	arena[c][countRow-1] = pBlock;
+	arena[c][COUNT_ROW-1] = pBlock;
 }
 
 void ScenePlay::moveBlocks()
 {
 	//UnoBlock* pBlock;
-	for (int i = 0; i < countCol; i++)
+	for (int i = 0; i < COUNT_COL; i++)
 	{
-		for(int j = 0; j < countRow; j++)
+		for(int j = 0; j < COUNT_ROW; j++)
 		{
 			//arena[i][j]->setCoord(i, j);
 			arena[i][j]->moveToDest();

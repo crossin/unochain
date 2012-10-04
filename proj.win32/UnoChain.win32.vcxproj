@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\SceneEnd.h" />
     <ClInclude Include="..\Classes\ScenePlay.h" />
     <ClInclude Include="..\Classes\UnoBlock.h" />
     <ClInclude Include="main.h" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\SceneEnd.cpp" />
     <ClCompile Include="..\Classes\ScenePlay.cpp" />
     <ClCompile Include="..\Classes\UnoBlock.cpp" />
     <ClCompile Include="main.cpp" />

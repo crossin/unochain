@@ -10,8 +10,8 @@ public:
 	UnoBlock(void);
 	~UnoBlock(void);
 
-	static UnoBlock* unoblock(int idx=0, int clr=0);
-	virtual bool init(int idx, int clr);
+	static UnoBlock* unoblock(int tp=0);
+	virtual bool init(int tp);
 	//CREATE_FUNC(UnoBlock);
 
 	CCRect getRect();
@@ -19,8 +19,7 @@ public:
 	void moveToDest();
 
 	CCSprite* sprite;
-	int unoIndex;
-	int unoColor;
+	int type;
 	bool inChain;
 	int col;
 	int row;

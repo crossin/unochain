@@ -15,7 +15,10 @@ public:
 	static CCScene* scene();
 	CREATE_FUNC(ScenePlay);
 
-	//void updateFrame(CCTime dt);
+	static const int COUNT_COL = 7;
+	static const int COUNT_ROW = 12;
+
+	void update(float dt);
 	void ccTouchesBegan(CCSet* touches, CCEvent* event);
 	void ccTouchesMoved(CCSet* touches, CCEvent* event);
 	void ccTouchesEnded(CCSet* touches, CCEvent* event);
@@ -24,11 +27,11 @@ public:
 	void clearBlock(UnoBlock* block);
 	void moveBlocks();
 	
-	int countCol;
-	int countRow;
-	UnoBlock* arena[8][12];
+
+	UnoBlock* arena[COUNT_COL][COUNT_ROW];
 	//UnoBlock* blockLast;
 	CCArray* chainSelected;
+	float gametime;
 };
 
 
