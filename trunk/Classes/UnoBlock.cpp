@@ -10,10 +10,10 @@ UnoBlock::~UnoBlock(void)
 {
 }
 
-UnoBlock* UnoBlock::unoblock( int idx/*=0*/, int clr/*=0*/ )
+UnoBlock* UnoBlock::unoblock( int tp/*=0*/)
 {
 	UnoBlock* block = new UnoBlock;
-	if (block && block->init(idx, clr))
+	if (block && block->init(tp))
 	{
 		block->autorelease();
 		return block;
@@ -21,13 +21,12 @@ UnoBlock* UnoBlock::unoblock( int idx/*=0*/, int clr/*=0*/ )
 	return NULL;
 }
 
-bool UnoBlock::init( int idx, int clr )
+bool UnoBlock::init( int tp )
 {
 	bool bRet = false;
 	do{
-		unoIndex = idx!=0 ? idx : int(CCRANDOM_0_1()*3)+1;
-		unoColor = clr!=0 ? clr : int(CCRANDOM_0_1()*3)+1;
-		switch (unoIndex)
+		type = tp!=0 ? tp : int(CCRANDOM_0_1()*3)+1;
+		switch (type)
 		{
 		case 1:
 		default:
@@ -38,19 +37,6 @@ bool UnoBlock::init( int idx, int clr )
 			break;
 		case 3:
 			sprite = CCSprite::create("symbol3.png");
-			break;
-		}
-		switch (unoColor)
-		{
-		case 1:
-		default:
-			sprite->setColor(ccc3(200,100,100));
-			break;
-		case 2:
-			sprite->setColor(ccc3(100,200,100));
-			break;
-		case 3:
-			sprite->setColor(ccc3(100,100,200));
 			break;
 		}
 		addChild(sprite);
@@ -74,7 +60,7 @@ void UnoBlock::setCoord( int c, int r )
 {
 	col = c;
 	row = r;
-	setPosition(ccp(col*40+20, row*40+20));
+	setPosition(ccp(col*45+25, row*40+20));
 }
 
 void UnoBlock::moveToDest()
