@@ -58,10 +58,22 @@ bool ScenePlay::init()
 		chainSelected->retain();
 
 		//blockLast = NULL;
-		gametime = 3;
+		gametime = 30;
+		pointWin = 50;
+		pointNow = 0;
 
-
-
+		// ui
+		textTime = CCLabelTTF::create("", "Arial", 24);
+		CC_BREAK_IF(!textTime);
+		textTime->setPosition(ccp(300, 460));
+		addChild(textTime);
+		
+		progressbar = CCSprite::create("bar.png");
+		CC_BREAK_IF(!progressbar);
+		progressbar->setPosition(ccp(20, 450));
+		progressbar->setAnchorPoint(CCPointZero);
+		progressbar->setTextureRect(CCRectMake(0,0,0,20));
+		addChild(progressbar);
 
 		bRet = true;
 	} while (0);
@@ -77,6 +89,9 @@ bool ScenePlay::init()
 void ScenePlay::update(float dt)
 {
 	gametime -= dt;
+	char strTime[4];
+	sprintf(strTime, "%d", (int)gametime);
+	textTime->setString(strTime);
 	if (gametime < 0)
 	{
 		CCDirector::sharedDirector()->replaceScene(SceneEnd::scene());
@@ -134,6 +149,13 @@ void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 			clearBlock(pBlock);
 			moveBlocks();
 		}
+		// add point
+		pointNow += chainSelected->count();
+		if (pointNow >= pointWin)
+		{
+			CCDirector::sharedDirector()->replaceScene(SceneEnd::scene(true));
+		}
+		progressbar->setTextureRect(CCRectMake(0,0,240.0*pointNow/pointWin,20));
 	}
 
 	chainSelected->removeAllObjects();

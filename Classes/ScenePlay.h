@@ -16,7 +16,7 @@ public:
 	CREATE_FUNC(ScenePlay);
 
 	static const int COUNT_COL = 7;
-	static const int COUNT_ROW = 12;
+	static const int COUNT_ROW = 11;
 
 	void update(float dt);
 	void ccTouchesBegan(CCSet* touches, CCEvent* event);
@@ -27,11 +27,14 @@ public:
 	void clearBlock(UnoBlock* block);
 	void moveBlocks();
 	
-
+	CCLabelTTF* textTime;
+	CCSprite* progressbar;
 	UnoBlock* arena[COUNT_COL][COUNT_ROW];
 	//UnoBlock* blockLast;
 	CCArray* chainSelected;
 	float gametime;
+	int pointWin;
+	int pointNow;
 };
 
 

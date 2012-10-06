@@ -17,6 +17,7 @@ public:
 	CCRect getRect();
 	void setCoord(int c, int r);
 	void moveToDest();
+	CCPoint getPosInGame();
 
 	CCSprite* sprite;
 	int type;
