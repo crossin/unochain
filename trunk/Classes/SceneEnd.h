@@ -11,7 +11,7 @@ public:
 	~SceneEnd(void);
 
 	virtual bool init();  
-	static CCScene* scene();
+	static CCScene* scene(bool isWin = false);
 	CREATE_FUNC(SceneEnd);
 
 	CCLabelTTF* textDesc;

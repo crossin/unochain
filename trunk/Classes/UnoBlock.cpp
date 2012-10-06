@@ -60,14 +60,19 @@ void UnoBlock::setCoord( int c, int r )
 {
 	col = c;
 	row = r;
-	setPosition(ccp(col*45+25, row*40+20));
+	setPosition(getPosInGame());
 }
 
 void UnoBlock::moveToDest()
 {
-	float dist = getPositionY() - (row*40+20);
+	float dist = getPositionY() - getPosInGame().y;
 	if (dist > 0)
 	{
-		runAction(CCMoveTo::create(dist/500, ccp(col*40+20, row*40+20)));
+		runAction(CCMoveTo::create(dist/500, getPosInGame()));
 	}
+}
+
+CCPoint UnoBlock::getPosInGame()
+{
+	return ccp(col*45+25, row*40+20);
 }

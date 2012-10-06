@@ -11,7 +11,7 @@ SceneEnd::~SceneEnd(void)
 }
 
 
-CCScene* SceneEnd::scene()
+CCScene* SceneEnd::scene(bool isWin/* = false*/)
 {
 	CCScene * scene = NULL;
 	do 
@@ -23,6 +23,11 @@ CCScene* SceneEnd::scene()
 		CC_BREAK_IF(! layer);
 
 		scene->addChild(layer);
+
+		if (isWin)
+		{
+			layer->textDesc->setString("You Win!");
+		}
 	} while (0);
 
 	return scene;
