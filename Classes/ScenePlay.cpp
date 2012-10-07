@@ -166,6 +166,7 @@ void ScenePlay::touchBlock( UnoBlock* block )
 	UnoBlock* blockLast;
 	if (!block->inChain)
 	{
+		// add to chain
 		if (chainSelected->count() == 0)
 		{
 			//blockLast = block;
@@ -179,7 +180,7 @@ void ScenePlay::touchBlock( UnoBlock* block )
 			// adjacent && (same color/index)
 			if (((block->col==blockLast->col && abs(block->row-blockLast->row)==1)
 					|| (block->row==blockLast->row && abs(block->col-blockLast->col)==1))
-				&& block->type == blockLast->type)
+				/*&& block->type == blockLast->type*/)
 			{
 				chainSelected->addObject(block);
 				block->inChain = true;
@@ -189,6 +190,7 @@ void ScenePlay::touchBlock( UnoBlock* block )
 	}
 	else
 	{
+		// remove from chain
 		blockLast = (UnoBlock*)chainSelected->lastObject();
 		while ( blockLast != block)
 		{

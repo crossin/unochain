@@ -18,7 +18,7 @@ public:
 	void setCoord(int c, int r);
 	void moveToDest();
 	CCPoint getPosInGame();
-
+	void setPosAbove(UnoBlock blk);
 	CCSprite* sprite;
 	int type;
 	bool inChain;
