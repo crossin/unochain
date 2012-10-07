@@ -63,6 +63,15 @@ void UnoBlock::setCoord( int c, int r )
 	setPosition(getPosInGame());
 }
 
+void UnoBlock::setPosAbove()
+{
+	float dist = getPositionY() - getPosInGame().y;
+	if (dist > 0)
+	{
+		runAction(CCMoveTo::create(dist/500, getPosInGame()));
+	}
+}
+
 void UnoBlock::moveToDest()
 {
 	float dist = getPositionY() - getPosInGame().y;
