@@ -1,4 +1,5 @@
 #include "Block.h"
+#include "ScenePlay.h"
 
 
 Block::Block(void)
@@ -74,10 +75,11 @@ void Block::moveToDest()
 
 CCPoint Block::getPosInGame()
 {
-	return ccp(col*45+25, row*40+20);
+	return ccp(col*45+25, row*45+20);
 }
 
 void Block::setPosAbove( Block* blk )
 {
-	setPositionY(blk->getPositionY()+40);
+	int yBase = blk->getPositionY();
+	setPositionY(yBase>(ScenePlay::COUNT_ROW-1)*45+20 ? yBase+55 : yBase+90);
 }

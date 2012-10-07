@@ -16,7 +16,7 @@ public:
 	CREATE_FUNC(ScenePlay);
 
 	static const int COUNT_COL = 7;
-	static const int COUNT_ROW = 11;
+	static const int COUNT_ROW = 10;
 
 	void update(float dt);
 	void ccTouchesBegan(CCSet* touches, CCEvent* event);
