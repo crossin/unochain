@@ -190,12 +190,7 @@ void ScenePlay::touchBlock( Block* block )
 	}
 	else
 	{
-<<<<<<< .mine
 		blockLast = (Block*)chainSelected->lastObject();
-=======
-		// remove from chain
-		blockLast = (UnoBlock*)chainSelected->lastObject();
->>>>>>> .r12
 		while ( blockLast != block)
 		{
 			chainSelected->removeLastObject(true);
