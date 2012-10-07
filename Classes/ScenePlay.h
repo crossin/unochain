@@ -1,6 +1,6 @@
 #pragma once
 #include "cocos2d.h"
-#include "UnoBlock.h"
+#include "Block.h"
 
 using namespace cocos2d;
 
@@ -23,14 +23,14 @@ public:
 	void ccTouchesMoved(CCSet* touches, CCEvent* event);
 	void ccTouchesEnded(CCSet* touches, CCEvent* event);
 
-	void touchBlock(UnoBlock* block);
-	void clearBlock(UnoBlock* block);
+	void touchBlock(Block* block);
+	void clearBlock(Block* block);
 	void moveBlocks();
 	
 	CCLabelTTF* textTime;
 	CCSprite* progressbar;
-	UnoBlock* arena[COUNT_COL][COUNT_ROW];
-	//UnoBlock* blockLast;
+	Block* arena[COUNT_COL][COUNT_ROW];
+	//Block* blockLast;
 	CCArray* chainSelected;
 	float gametime;
 	int pointWin;
