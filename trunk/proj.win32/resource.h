@@ -1,10 +1,10 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by UnoChain.RC
+// Used by LinkEmUp.RC
 //
 
 #define IDS_PROJNAME                100
-#define IDR_UNOCHAIN    100
+#define IDR_LINKEMUP    100
 
 #define ID_FILE_NEW_WINDOW            32771
 

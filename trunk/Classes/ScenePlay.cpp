@@ -41,12 +41,12 @@ bool ScenePlay::init()
 		srand(time(0)); 
 
 		// init game
-		UnoBlock* pSymbol;
+		Block* pSymbol;
 		for (int i = 0; i < COUNT_COL; i++)
 		{
 			for(int j = 0; j < COUNT_ROW; j++)
 			{
-				pSymbol = UnoBlock::unoblock();
+				pSymbol = Block::create();
 				CC_BREAK_IF(!pSymbol);
 				pSymbol->setCoord(i, j);
 				addChild(pSymbol);
@@ -105,7 +105,7 @@ void ScenePlay::ccTouchesBegan( CCSet* touches, CCEvent* event )
 	CCTouch* touch = (CCTouch*)(*it);
 	CCPoint m_tTouchPos = convertTouchToNodeSpace(touch);
 
-	UnoBlock* pBlock;
+	Block* pBlock;
 	CCRect rect;
 	for (int i = 0; i < COUNT_COL; i++)
 	{
@@ -129,13 +129,13 @@ void ScenePlay::ccTouchesMoved( CCSet* touches, CCEvent* event )
 void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 {
 	CCObject* obj;
-	UnoBlock* pBlock;
+	Block* pBlock;
 
 	if (chainSelected->count() < 3)
 	{
 		CCARRAY_FOREACH(chainSelected, obj)
 		{
-			pBlock = (UnoBlock*)obj;
+			pBlock = (Block*)obj;
 			pBlock->inChain = false;
 			pBlock->sprite->setOpacity(255);
 		}
@@ -144,7 +144,7 @@ void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 	{
 		CCARRAY_FOREACH(chainSelected, obj)
 		{
-			pBlock = (UnoBlock*)obj;
+			pBlock = (Block*)obj;
 			removeChild(pBlock, true);
 			clearBlock(pBlock);
 			moveBlocks();
@@ -161,9 +161,9 @@ void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 	chainSelected->removeAllObjects();
 }
 
-void ScenePlay::touchBlock( UnoBlock* block )
+void ScenePlay::touchBlock( Block* block )
 {
-	UnoBlock* blockLast;
+	Block* blockLast;
 	if (!block->inChain)
 	{
 		// add to chain
@@ -176,7 +176,7 @@ void ScenePlay::touchBlock( UnoBlock* block )
 		} 
 		else
 		{
-			blockLast = (UnoBlock*)chainSelected->lastObject();
+			blockLast = (Block*)chainSelected->lastObject();
 			// adjacent && (same color/index)
 			if (((block->col==blockLast->col && abs(block->row-blockLast->row)==1)
 					|| (block->row==blockLast->row && abs(block->col-blockLast->col)==1))
@@ -190,19 +190,23 @@ void ScenePlay::touchBlock( UnoBlock* block )
 	}
 	else
 	{
+<<<<<<< .mine
+		blockLast = (Block*)chainSelected->lastObject();
+=======
 		// remove from chain
 		blockLast = (UnoBlock*)chainSelected->lastObject();
+>>>>>>> .r12
 		while ( blockLast != block)
 		{
 			chainSelected->removeLastObject(true);
 			blockLast->inChain = false;
 			blockLast->sprite->setOpacity(255);
-			blockLast = (UnoBlock*)chainSelected->lastObject();
+			blockLast = (Block*)chainSelected->lastObject();
 		}
 	}
 }
 
-void ScenePlay::clearBlock( UnoBlock* block )
+void ScenePlay::clearBlock( Block* block )
 {
 	int c = block->col;
 	for (int i = block->row; i < COUNT_ROW-1; i++)
@@ -210,16 +214,16 @@ void ScenePlay::clearBlock( UnoBlock* block )
 		arena[c][i] = arena[c][i+1];
 		arena[c][i]->row--;
 	}
-	UnoBlock* pBlock = UnoBlock::unoblock();
+	Block* pBlock = Block::create();
 	pBlock->setCoord(c, COUNT_ROW-1);
-	pBlock->setPositionY(arena[c][COUNT_ROW-2]->getPositionY()+40);
+	pBlock->setPosAbove(arena[c][COUNT_ROW-2]);
 	addChild(pBlock);
 	arena[c][COUNT_ROW-1] = pBlock;
 }
 
 void ScenePlay::moveBlocks()
 {
-	//UnoBlock* pBlock;
+	//Block* pBlock;
 	for (int i = 0; i < COUNT_COL; i++)
 	{
 		for(int j = 0; j < COUNT_ROW; j++)
