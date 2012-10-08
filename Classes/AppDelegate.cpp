@@ -3,6 +3,8 @@
 #include "AppDelegate.h"
 #include "SimpleAudioEngine.h"
 #include "ScenePlay.h"
+#include "ScenePlayPuzzle.h"
+#include "ScenePlayClassic.h"
 
 using namespace CocosDenshion;
 
@@ -33,7 +35,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     pDirector->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    CCScene *pScene = ScenePlay::scene();
+	//CCScene *pScene = ScenePlay::scene();
+	CCScene *pScene = ScenePlayPuzzle::scene();
+    //CCScene *pScene = ScenePlayClassic::scene();
 
     // run
     pDirector->runWithScene(pScene);

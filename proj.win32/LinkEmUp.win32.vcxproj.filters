@@ -64,6 +64,12 @@
     <ClInclude Include="..\classes\Block.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ScenePlayClassic.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ScenePlayPuzzle.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -79,6 +85,12 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Block.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ScenePlayClassic.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ScenePlayPuzzle.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

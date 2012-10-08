@@ -57,23 +57,7 @@ bool ScenePlay::init()
 		chainSelected = CCArray::create();
 		chainSelected->retain();
 
-		//blockLast = NULL;
-		gametime = 30;
-		pointWin = 50;
-		pointNow = 0;
 
-		// ui
-		textTime = CCLabelTTF::create("", "Arial", 24);
-		CC_BREAK_IF(!textTime);
-		textTime->setPosition(ccp(300, 460));
-		addChild(textTime);
-		
-		progressbar = CCSprite::create("bar.png");
-		CC_BREAK_IF(!progressbar);
-		progressbar->setPosition(ccp(20, 450));
-		progressbar->setAnchorPoint(CCPointZero);
-		progressbar->setTextureRect(CCRectMake(0,0,0,20));
-		addChild(progressbar);
 
 		bRet = true;
 	} while (0);
@@ -85,18 +69,6 @@ bool ScenePlay::init()
 
 	return bRet;
 }
-
-void ScenePlay::update(float dt)
-{
-	gametime -= dt;
-	char strTime[4];
-	sprintf(strTime, "%d", (int)gametime);
-	textTime->setString(strTime);
-	if (gametime < 0)
-	{
-		CCDirector::sharedDirector()->replaceScene(SceneEnd::scene());
-	}
-};
 
 
 void ScenePlay::ccTouchesBegan( CCSet* touches, CCEvent* event )
@@ -111,11 +83,13 @@ void ScenePlay::ccTouchesBegan( CCSet* touches, CCEvent* event )
 	{
 		for(int j = 0; j < COUNT_ROW; j++)
 		{
-			pBlock = arena[i][j];
-			rect = pBlock->getRect();
-			if (rect.containsPoint(m_tTouchPos))
+			if (pBlock = arena[i][j])
 			{
-				touchBlock(pBlock);
+				rect = pBlock->getRect();
+				if (rect.containsPoint(m_tTouchPos))
+				{
+					touchBlock(pBlock);
+				}
 			}
 		}
 	}
@@ -130,7 +104,6 @@ void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 {
 	CCObject* obj;
 	Block* pBlock;
-
 	if (chainSelected->count() < 3)
 	{
 		CCARRAY_FOREACH(chainSelected, obj)
@@ -142,24 +115,32 @@ void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 	} 
 	else
 	{
-		CCARRAY_FOREACH(chainSelected, obj)
-		{
-			pBlock = (Block*)obj;
-			removeChild(pBlock, true);
-			clearBlock(pBlock);
-			moveBlocks();
-		}
-		// add point
-		pointNow += chainSelected->count();
-		if (pointNow >= pointWin)
-		{
-			CCDirector::sharedDirector()->replaceScene(SceneEnd::scene(true));
-		}
-		progressbar->setTextureRect(CCRectMake(0,0,240.0*pointNow/pointWin,20));
+		clearChain();
 	}
 
 	chainSelected->removeAllObjects();
 }
+
+
+void ScenePlay::clearChain()
+{
+	clearAndRefill(true);
+}
+
+void ScenePlay::clearAndRefill( bool refillable )
+{
+	CCObject* obj;
+	Block* pBlock;
+	CCARRAY_FOREACH(chainSelected, obj)
+	{
+		pBlock = (Block*)obj;
+		removeChild(pBlock, true);
+		clearBlock(pBlock, refillable);
+		moveBlocks();
+	}
+	checkNoMoves();
+}
+
 
 void ScenePlay::touchBlock( Block* block )
 {
@@ -201,19 +182,30 @@ void ScenePlay::touchBlock( Block* block )
 	}
 }
 
-void ScenePlay::clearBlock( Block* block )
+
+void ScenePlay::clearBlock( Block* block, bool refillable)
 {
 	int c = block->col;
 	for (int i = block->row; i < COUNT_ROW-1; i++)
 	{
 		arena[c][i] = arena[c][i+1];
-		arena[c][i]->row--;
+		if (arena[c][i])
+		{
+			arena[c][i]->row--;
+		}
 	}
-	Block* pBlock = Block::create();
-	pBlock->setCoord(c, COUNT_ROW-1);
-	pBlock->setPosAbove(arena[c][COUNT_ROW-2]);
-	addChild(pBlock);
-	arena[c][COUNT_ROW-1] = pBlock;
+	if (refillable)
+	{
+		Block* pBlock = Block::create();
+		pBlock->setCoord(c, COUNT_ROW-1);
+		pBlock->setPosAbove(arena[c][COUNT_ROW-2]);
+		addChild(pBlock);
+		arena[c][COUNT_ROW-1] = pBlock;	
+	}
+	else
+	{
+		arena[c][COUNT_ROW-1] = NULL;
+	}
 }
 
 void ScenePlay::moveBlocks()
@@ -224,9 +216,51 @@ void ScenePlay::moveBlocks()
 		for(int j = 0; j < COUNT_ROW; j++)
 		{
 			//arena[i][j]->setCoord(i, j);
-			arena[i][j]->moveToDest();
+			if (arena[i][j])
+			{
+				arena[i][j]->moveToDest();
+			}
 		}
 	}
+}
+
+void ScenePlay::checkNoMoves()
+{
+	int numSame;
+	int tp;
+	for (int i = 0; i < COUNT_COL; i++)
+	{
+		for(int j = 0; j < COUNT_ROW; j++)
+		{
+			if (arena[i][j])
+			{
+				numSame = 0;
+				tp = arena[i][j]->type;
+				if (j+1 < COUNT_ROW && arena[i][j+1] && arena[i][j+1]->type == tp)
+				{
+					numSame++;
+				}
+				if (i+1 < COUNT_COL && arena[i+1][j] && arena[i+1][j]->type == tp)
+				{
+					numSame++;
+				}
+				if (j-1 >= 0 && arena[i][j-1] && arena[i][j-1]->type == tp)
+				{
+					numSame++;
+				}
+				if (i-1 >= 0 && arena[i-1][j] && arena[i-1][j]->type == tp)
+				{
+					numSame++;
+				}
+				if (numSame > 1)
+				{
+					return;
+				}
+			}
+		}
+	}
+	// mo move
+	CCDirector::sharedDirector()->replaceScene(SceneEnd::scene());
 }
 
 
