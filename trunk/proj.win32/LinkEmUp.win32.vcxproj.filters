@@ -70,6 +70,12 @@
     <ClInclude Include="..\Classes\ScenePlayPuzzle.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ScenePlayRace.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ScenePlayEndless.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -91,6 +97,12 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ScenePlayPuzzle.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ScenePlayRace.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ScenePlayEndless.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

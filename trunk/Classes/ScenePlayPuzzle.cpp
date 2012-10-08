@@ -1,4 +1,5 @@
 #include "ScenePlayPuzzle.h"
+#include "SceneEnd.h"
 
 
 ScenePlayPuzzle::ScenePlayPuzzle(void)
@@ -45,4 +46,16 @@ bool ScenePlayPuzzle::init()
 void ScenePlayPuzzle::clearChain()
 {
 	clearAndRefill(false);
+	// check all clear
+	for (int i = 0; i < COUNT_COL; i++)
+	{
+		for(int j = 0; j < COUNT_ROW; j++)
+		{
+			if (arena[i][j])
+			{
+				return;
+			}
+		}
+	}
+	CCDirector::sharedDirector()->replaceScene(SceneEnd::scene(true));
 }

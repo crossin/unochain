@@ -5,6 +5,8 @@
 #include "ScenePlay.h"
 #include "ScenePlayPuzzle.h"
 #include "ScenePlayClassic.h"
+#include "ScenePlayRace.h"
+#include "ScenePlayEndless.h"
 
 using namespace CocosDenshion;
 
@@ -36,7 +38,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // create a scene. it's an autorelease object
 	//CCScene *pScene = ScenePlay::scene();
-	CCScene *pScene = ScenePlayPuzzle::scene();
+	//CCScene *pScene = ScenePlayPuzzle::scene();
+	//CCScene *pScene = ScenePlayRace::scene();
+	CCScene *pScene = ScenePlayEndless::scene();
     //CCScene *pScene = ScenePlayClassic::scene();
 
     // run
