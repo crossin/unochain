@@ -139,6 +139,8 @@
     <ClInclude Include="..\Classes\SceneEnd.h" />
     <ClInclude Include="..\Classes\ScenePlay.h" />
     <ClInclude Include="..\classes\Block.h" />
+    <ClInclude Include="..\Classes\ScenePlayClassic.h" />
+    <ClInclude Include="..\Classes\ScenePlayPuzzle.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
@@ -147,6 +149,8 @@
     <ClCompile Include="..\Classes\SceneEnd.cpp" />
     <ClCompile Include="..\Classes\ScenePlay.cpp" />
     <ClCompile Include="..\Classes\Block.cpp" />
+    <ClCompile Include="..\Classes\ScenePlayClassic.cpp" />
+    <ClCompile Include="..\Classes\ScenePlayPuzzle.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
