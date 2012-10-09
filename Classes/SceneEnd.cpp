@@ -1,4 +1,5 @@
 #include "SceneEnd.h"
+#include "SceneTitle.h"
 
 
 SceneEnd::SceneEnd(void)
@@ -48,5 +49,12 @@ bool SceneEnd::init()
 		bRet = true;
 	} while (0);
 
+	setTouchEnabled(true);
+
 	return bRet;
+}
+
+void SceneEnd::ccTouchesEnded( CCSet* touches, CCEvent* event )
+{
+	CCDirector::sharedDirector()->replaceScene(SceneTitle::scene());
 }
