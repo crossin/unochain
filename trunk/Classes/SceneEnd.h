@@ -14,6 +14,8 @@ public:
 	static CCScene* scene(bool isWin = false);
 	CREATE_FUNC(SceneEnd);
 
+	void ccTouchesEnded(CCSet* touches, CCEvent* event);
+
 	CCLabelTTF* textDesc;
 };
 
