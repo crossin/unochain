@@ -76,6 +76,9 @@
     <ClInclude Include="..\Classes\ScenePlayEndless.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\SceneTitle.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -103,6 +106,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ScenePlayEndless.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SceneTitle.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

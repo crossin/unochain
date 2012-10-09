@@ -1,10 +1,7 @@
 #include "cocos2d.h"
 #include "CCEGLView.h"
 #include "AppDelegate.h"
-#include "SimpleAudioEngine.h"
-#include "SceneTitle.h"
-
-using namespace CocosDenshion;
+#include "SceneEditor.h"
 
 USING_NS_CC;
 
@@ -14,7 +11,6 @@ AppDelegate::AppDelegate()
 
 AppDelegate::~AppDelegate()
 {
-    SimpleAudioEngine::end();
 }
 
 bool AppDelegate::applicationDidFinishLaunching()
@@ -33,7 +29,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     pDirector->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-	CCScene *pScene = SceneTitle::scene();
+    CCScene *pScene = SceneEditor::scene();
 
     // run
     pDirector->runWithScene(pScene);
@@ -44,14 +40,10 @@ bool AppDelegate::applicationDidFinishLaunching()
 void AppDelegate::applicationDidEnterBackground()
 {
     CCDirector::sharedDirector()->stopAnimation();
-
-    SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground()
 {
     CCDirector::sharedDirector()->startAnimation();
-
-    SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
 }
