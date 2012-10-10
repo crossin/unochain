@@ -1,5 +1,5 @@
 #include "SceneEditor.h"
-#include "LEUBlock.h"
+#include "libxml/tree.h"
 
 using namespace cocos2d;
 
@@ -54,6 +54,16 @@ bool SceneEditor::init()
         // add your codes below...
         //////////////////////////////////////////////////////////////////////////
 
+		// ui
+		
+		CCMenu* menu = CCMenu::create(NULL);
+		menu->setPosition(CCPointZero);
+		addChild(menu);
+		CCMenuItem* button;
+		button = CCMenuItemLabel::create(CCLabelTTF::create("SAVE", "Arial", 20), this, menu_selector(SceneEditor::buttonCallback));
+		button->setPosition(ccp(400, 200));
+		menu->addChild(button, 1, 1);
+
 		CCSprite* pSprite;
 		for (int i = 0; i < ScenePlay::COUNT_COL; i++)
 		{
@@ -103,28 +113,110 @@ void SceneEditor::ccTouchesEnded( CCSet* touches, CCEvent* event )
 		block = (LEUBlock*)sampleBlocks->objectAtIndex(i);
 		if (block->getRect().containsPoint(m_tTouchPos))
 		{
-			if (blockSelected)
+			if (blockSelected == block)
 			{
 				blockSelected->sprite->setOpacity(255);
+				blockSelected = NULL;
 			}
-			blockSelected = block;
-			block->sprite->setOpacity(127);
+			else
+			{
+				if (blockSelected)
+				{
+					blockSelected->sprite->setOpacity(255);
+				}
+				blockSelected = block;
+				block->sprite->setOpacity(127);
+			}
 		}
 	}
 
 	// put block
-	if (blockSelected && CCRectMake(15,15,45*ScenePlay::COUNT_COL,45*ScenePlay::COUNT_ROW).containsPoint(m_tTouchPos))
+	if (CCRectMake(15,15,45*ScenePlay::COUNT_COL,45*ScenePlay::COUNT_ROW).containsPoint(m_tTouchPos))
 	{
 		int c = (m_tTouchPos.x-15)/45;
 		int r = (m_tTouchPos.y-15)/45;
-		if (!arena[c][r])
+
+		if (blockSelected)
 		{
+			// add block
+			if (arena[c][r])
+			{
+				// add on other block
+				if (arena[c][ScenePlay::COUNT_ROW-1])
+				{
+					removeChild(arena[c][ScenePlay::COUNT_ROW-1], true);
+				}
+				for (int i=ScenePlay::COUNT_ROW-1; i>r; i--)
+				{
+					arena[c][i] = arena[c][i-1];
+					if (arena[c][i])
+					{
+						arena[c][i]->setPosition(c*45+35,i*45+35);
+					}
+				}
+			}
 			arena[c][r] = LEUBlock::create(blockSelected->type);
 			arena[c][r]->setPosition(c*45+35,r*45+35);
 			addChild(arena[c][r]);
 		}
+		else
+		{
+			if (arena[c][r])
+			{
+				// clear block
+				removeChild(arena[c][r], true);
+				arena[c][r] = NULL;
+			}
+		}
+
 	}
 }
+
+bool SceneEditor::saveToFile()
+{
+	xmlDocPtr doc = xmlNewDoc(BAD_CAST"1.0");
+	xmlNodePtr root_node = xmlNewNode(NULL,BAD_CAST"level");
+
+	xmlDocSetRootElement(doc,root_node);
+
+
+	xmlNodePtr node;
+	//xmlNodePtr son_node;
+	xmlNodePtr content;
+	char number[4] = "101";
+	//CCMutableDictionary<std::string, CCString*>* dic;
+	//vector<std::string> vc;
+	//vector<std::string>::iterator it;
+	//string key;
+
+	// map
+	node = xmlNewNode(NULL,BAD_CAST"map");
+
+	content = xmlNewText(BAD_CAST(number));
+	xmlAddChild(root_node,node);
+	xmlAddChild(node,content);
+
+
+	char fname[32]="level.xml";
+// 	strcpy_s(fname, filename);
+// 	strcat_s(fname, ".xml");
+//	sprintf(fname, "level/%s.xml", filename);
+	int nRel = xmlSaveFormatFileEnc(fname, doc, "UTF-8", 1);
+	if (nRel == -1)
+	{
+		return false;
+	}
+
+	xmlFreeDoc(doc);
+	
+	return true;
+}
+
+void SceneEditor::buttonCallback( CCObject* pSender )
+{
+	saveToFile();
+}
+
 // void SceneEditor::menuCloseCallback(CCObject* pSender)
 // {
 //     // "close" menu item clicked

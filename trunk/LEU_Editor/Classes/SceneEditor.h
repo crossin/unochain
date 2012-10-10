@@ -26,6 +26,9 @@ public:
     CREATE_FUNC(SceneEditor);
 
 	void ccTouchesEnded( CCSet* touches, CCEvent* event );
+	void buttonCallback(CCObject* pSender);
+
+	bool saveToFile();
 
 	LEUBlock* arena[ScenePlay::COUNT_COL][ScenePlay::COUNT_ROW];
 	CCArray* sampleBlocks;

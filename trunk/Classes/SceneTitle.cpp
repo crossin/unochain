@@ -45,11 +45,10 @@ bool SceneTitle::init()
 		label->setPosition( ccp(160, 300) );
 		addChild(label);
 
-		CCMenuItem* button;
 		CCMenu* menu = CCMenu::create(NULL);
 		menu->setPosition(CCPointZero);
 		addChild(menu);
-
+		CCMenuItem* button;
 		button = CCMenuItemLabel::create(CCLabelTTF::create("CLASSIC", "Arial", 20), this, menu_selector(SceneTitle::buttonCallback));
 		button->setPosition(ccp(160, 200));
 		menu->addChild(button, 1, 1);
