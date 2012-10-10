@@ -38,6 +38,8 @@
     <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
     <IntDir>$(Configuration).win32\</IntDir>
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath);..\..\Classes</IncludePath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
@@ -122,21 +124,20 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\Resources\CloseNormal.png" />
-    <None Include="..\Resources\CloseSelected.png" />
-    <None Include="..\Resources\HelloWorld.png" />
     <None Include="res\LEU_Editor.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LEU_Editor.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\classes\LEUBlock.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\SceneEditor.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Classes\LEUBlock.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\SceneEditor.cpp" />
     <ClCompile Include="main.cpp" />

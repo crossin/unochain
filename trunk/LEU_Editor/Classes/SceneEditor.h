@@ -2,10 +2,17 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "LEUBlock.h"
+#include "ScenePlay.h"
 
-class SceneEditor : public cocos2d::CCLayer
+using namespace cocos2d;
+
+class SceneEditor : public CCLayer
 {
 public:
+	SceneEditor(void);
+	~SceneEditor(void);
+
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();  
 
@@ -17,6 +24,12 @@ public:
 
     // implement the "static node()" method manually
     CREATE_FUNC(SceneEditor);
+
+	void ccTouchesEnded( CCSet* touches, CCEvent* event );
+
+	LEUBlock* arena[ScenePlay::COUNT_COL][ScenePlay::COUNT_ROW];
+	CCArray* sampleBlocks;
+	LEUBlock* blockSelected;
 };
 
 #endif  // __HELLOWORLD_SCENE_H__

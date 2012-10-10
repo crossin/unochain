@@ -41,12 +41,12 @@ bool ScenePlay::init()
 		srand(time(0)); 
 
 		// init game
-		Block* pSymbol;
+		LEUBlock* pSymbol;
 		for (int i = 0; i < COUNT_COL; i++)
 		{
 			for(int j = 0; j < COUNT_ROW; j++)
 			{
-				pSymbol = Block::create();
+				pSymbol = LEUBlock::create();
 				CC_BREAK_IF(!pSymbol);
 				pSymbol->setCoord(i, j);
 				addChild(pSymbol);
@@ -77,16 +77,16 @@ void ScenePlay::ccTouchesBegan( CCSet* touches, CCEvent* event )
 	CCTouch* touch = (CCTouch*)(*it);
 	CCPoint m_tTouchPos = convertTouchToNodeSpace(touch);
 
-	Block* pBlock;
-	CCRect rect;
+	LEUBlock* pBlock;
+	//CCRect rect;
 	for (int i = 0; i < COUNT_COL; i++)
 	{
 		for(int j = 0; j < COUNT_ROW; j++)
 		{
 			if (pBlock = arena[i][j])
 			{
-				rect = pBlock->getRect();
-				if (rect.containsPoint(m_tTouchPos))
+				//rect = pBlock->getRect();
+				if (pBlock->getRect().containsPoint(m_tTouchPos))
 				{
 					touchBlock(pBlock);
 				}
@@ -103,12 +103,12 @@ void ScenePlay::ccTouchesMoved( CCSet* touches, CCEvent* event )
 void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 {
 	CCObject* obj;
-	Block* pBlock;
+	LEUBlock* pBlock;
 	if (chainSelected->count() < 3)
 	{
 		CCARRAY_FOREACH(chainSelected, obj)
 		{
-			pBlock = (Block*)obj;
+			pBlock = (LEUBlock*)obj;
 			pBlock->inChain = false;
 			pBlock->sprite->setOpacity(255);
 		}
@@ -116,6 +116,7 @@ void ScenePlay::ccTouchesEnded( CCSet* touches, CCEvent* event )
 	else
 	{
 		clearChain();
+		checkNoMoves();
 	}
 
 	chainSelected->removeAllObjects();
@@ -130,21 +131,20 @@ void ScenePlay::clearChain()
 void ScenePlay::clearAndRefill( bool refillable )
 {
 	CCObject* obj;
-	Block* pBlock;
+	LEUBlock* pBlock;
 	CCARRAY_FOREACH(chainSelected, obj)
 	{
-		pBlock = (Block*)obj;
+		pBlock = (LEUBlock*)obj;
 		removeChild(pBlock, true);
 		clearBlock(pBlock, refillable);
-		moveBlocks();
 	}
-	checkNoMoves();
+	moveBlocks();
 }
 
 
-void ScenePlay::touchBlock( Block* block )
+void ScenePlay::touchBlock( LEUBlock* block )
 {
-	Block* blockLast;
+	LEUBlock* blockLast;
 	if (!block->inChain)
 	{
 		// add to chain
@@ -157,7 +157,7 @@ void ScenePlay::touchBlock( Block* block )
 		} 
 		else
 		{
-			blockLast = (Block*)chainSelected->lastObject();
+			blockLast = (LEUBlock*)chainSelected->lastObject();
 			// adjacent && (same color/index)
 			if (((block->col==blockLast->col && abs(block->row-blockLast->row)==1)
 					|| (block->row==blockLast->row && abs(block->col-blockLast->col)==1))
@@ -171,19 +171,19 @@ void ScenePlay::touchBlock( Block* block )
 	}
 	else
 	{
-		blockLast = (Block*)chainSelected->lastObject();
+		blockLast = (LEUBlock*)chainSelected->lastObject();
 		while ( blockLast != block)
 		{
 			chainSelected->removeLastObject(true);
 			blockLast->inChain = false;
 			blockLast->sprite->setOpacity(255);
-			blockLast = (Block*)chainSelected->lastObject();
+			blockLast = (LEUBlock*)chainSelected->lastObject();
 		}
 	}
 }
 
 
-void ScenePlay::clearBlock( Block* block, bool refillable)
+void ScenePlay::clearBlock( LEUBlock* block, bool refillable)
 {
 	int c = block->col;
 	for (int i = block->row; i < COUNT_ROW-1; i++)
@@ -196,7 +196,7 @@ void ScenePlay::clearBlock( Block* block, bool refillable)
 	}
 	if (refillable)
 	{
-		Block* pBlock = Block::create();
+		LEUBlock* pBlock = LEUBlock::create();
 		pBlock->setCoord(c, COUNT_ROW-1);
 		pBlock->setPosAbove(arena[c][COUNT_ROW-2]);
 		addChild(pBlock);

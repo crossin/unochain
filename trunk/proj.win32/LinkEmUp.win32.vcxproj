@@ -62,7 +62,7 @@
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);D:\cocos2d-x-2.0.2\LinkEmUp\Classes;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libcocos2d.lib;libExtensions.lib;opengl32.lib;glew32.lib;libCocosDenshion.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
@@ -123,9 +123,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\Resources\bar.png" />
-    <None Include="..\Resources\CloseNormal.png" />
-    <None Include="..\Resources\CloseSelected.png" />
-    <None Include="..\Resources\HelloWorld.png" />
     <None Include="..\Resources\symbol1.png" />
     <None Include="..\Resources\symbol2.png" />
     <None Include="..\Resources\symbol3.png" />
@@ -138,7 +135,7 @@
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\SceneEnd.h" />
     <ClInclude Include="..\Classes\ScenePlay.h" />
-    <ClInclude Include="..\classes\Block.h" />
+    <ClInclude Include="..\classes\LEUBlock.h" />
     <ClInclude Include="..\Classes\ScenePlayClassic.h" />
     <ClInclude Include="..\Classes\ScenePlayEndless.h" />
     <ClInclude Include="..\Classes\ScenePlayPuzzle.h" />
@@ -151,7 +148,7 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\SceneEnd.cpp" />
     <ClCompile Include="..\Classes\ScenePlay.cpp" />
-    <ClCompile Include="..\Classes\Block.cpp" />
+    <ClCompile Include="..\Classes\LEUBlock.cpp" />
     <ClCompile Include="..\Classes\ScenePlayClassic.cpp" />
     <ClCompile Include="..\Classes\ScenePlayEndless.cpp" />
     <ClCompile Include="..\Classes\ScenePlayPuzzle.cpp" />

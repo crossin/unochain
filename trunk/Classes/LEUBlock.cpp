@@ -1,19 +1,19 @@
-#include "Block.h"
+#include "LEUBlock.h"
 #include "ScenePlay.h"
 
 
-Block::Block(void)
+LEUBlock::LEUBlock(void)
 {
 }
 
 
-Block::~Block(void)
+LEUBlock::~LEUBlock(void)
 {
 }
 
-Block* Block::create( int tp/*=0*/)
+LEUBlock* LEUBlock::create( int tp/*=0*/)
 {
-	Block* block = new Block;
+	LEUBlock* block = new LEUBlock;
 	if (block && block->init(tp))
 	{
 		block->autorelease();
@@ -22,11 +22,11 @@ Block* Block::create( int tp/*=0*/)
 	return NULL;
 }
 
-bool Block::init( int tp )
+bool LEUBlock::init( int tp )
 {
 	bool bRet = false;
 	do{
-		type = tp!=0 ? tp : int(CCRANDOM_0_1()*3)+1;
+		type = tp!=0 ? tp : int(CCRANDOM_0_1()*COUNT_TYPE)+1;
 		switch (type)
 		{
 		case 1:
@@ -51,20 +51,20 @@ bool Block::init( int tp )
 	return bRet;
 }
 
-CCRect Block::getRect()
+CCRect LEUBlock::getRect()
 {
 	CCRect box = sprite->boundingBox();
 	return CCRectMake(getPosition().x + box.origin.x, getPosition().y + box.origin.y, box.size.width, box.size.height);
 }
 
-void Block::setCoord( int c, int r )
+void LEUBlock::setCoord( int c, int r )
 {
 	col = c;
 	row = r;
 	setPosition(getPosInGame());
 }
 
-void Block::moveToDest()
+void LEUBlock::moveToDest()
 {
 	float dist = getPositionY() - getPosInGame().y;
 	if (dist > 0)
@@ -73,12 +73,12 @@ void Block::moveToDest()
 	}
 }
 
-CCPoint Block::getPosInGame()
+CCPoint LEUBlock::getPosInGame()
 {
 	return ccp(col*45+25, row*45+20);
 }
 
-void Block::setPosAbove( Block* blk )
+void LEUBlock::setPosAbove( LEUBlock* blk )
 {
 	int yBase = blk->getPositionY();
 	setPositionY(yBase>(ScenePlay::COUNT_ROW-1)*45+20 ? yBase+55 : yBase+90);
