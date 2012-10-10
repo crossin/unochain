@@ -1,6 +1,21 @@
 #include "SceneEditor.h"
+#include "LEUBlock.h"
 
 using namespace cocos2d;
+
+SceneEditor::SceneEditor(void)
+{
+}
+
+
+SceneEditor::~SceneEditor(void)
+{
+	if (blockSelected)
+	{
+		blockSelected->release();
+		blockSelected = NULL;
+	}
+}
 
 CCScene* SceneEditor::scene()
 {
@@ -38,57 +53,78 @@ bool SceneEditor::init()
         //////////////////////////////////////////////////////////////////////////
         // add your codes below...
         //////////////////////////////////////////////////////////////////////////
-		/*
-        // 1. Add a menu item with "X" image, which is clicked to quit the program.
 
-        // Create a "close" menu item with close icon, it's an auto release object.
-        CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-            "CloseNormal.png",
-            "CloseSelected.png",
-            this,
-            menu_selector(HelloWorld::menuCloseCallback));
-        CC_BREAK_IF(! pCloseItem);
+		CCSprite* pSprite;
+		for (int i = 0; i < ScenePlay::COUNT_COL; i++)
+		{
+			for(int j = 0; j < ScenePlay::COUNT_ROW; j++)
+			{
+				pSprite = CCSprite::create("grid.png");
+				pSprite->setPosition(ccp(i*45+35,j*45+35));
+				addChild(pSprite);
+				arena[i][j] = NULL;
+			}
+		}
 
-        // Place the menu item bottom-right conner.
-        pCloseItem->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width - 20, 20));
+		sampleBlocks = CCArray::create();
+		sampleBlocks->retain();
 
-        // Create a menu with the "close" menu item, it's an auto release object.
-        CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
-        pMenu->setPosition(CCPointZero);
-        CC_BREAK_IF(! pMenu);
+		LEUBlock* block;
+		for (int i=1; i<=LEUBlock::COUNT_TYPE; i++)
+		{
+			block = LEUBlock::create(i);
+			block->setPosition(360, 485-45*i);
+			addChild(block);
+			sampleBlocks->addObject(block);
+		}
 
-        // Add the menu to HelloWorld layer as a child layer.
-        this->addChild(pMenu, 1);
+		blockSelected = NULL;
 
-        // 2. Add a label shows "Hello World".
-
-        // Create a label and initialize with string "Hello World".
-        CCLabelTTF* pLabel = CCLabelTTF::create("Hello World", "Arial", 24);
-        CC_BREAK_IF(! pLabel);
-
-        // Get window size and place the label upper. 
-        CCSize size = CCDirector::sharedDirector()->getWinSize();
-        pLabel->setPosition(ccp(size.width / 2, size.height - 50));
-
-        // Add the label to HelloWorld layer as a child layer.
-        this->addChild(pLabel, 1);
-
-        // 3. Add add a splash screen, show the cocos2d splash image.
-        CCSprite* pSprite = CCSprite::create("HelloWorld.png");
-        CC_BREAK_IF(! pSprite);
-
-        // Place the sprite on the center of the screen
-        pSprite->setPosition(ccp(size.width/2, size.height/2));
-
-        // Add the sprite to HelloWorld layer as a child layer.
-        this->addChild(pSprite, 0);
-		*/
         bRet = true;
     } while (0);
+
+	setTouchEnabled(true);
+
 
     return bRet;
 }
 
+
+void SceneEditor::ccTouchesEnded( CCSet* touches, CCEvent* event )
+{
+	CCSetIterator it = touches->begin();
+	CCTouch* touch = (CCTouch*)(*it);
+	CCPoint m_tTouchPos = convertTouchToNodeSpace(touch);
+
+	// select block
+	LEUBlock* block;
+	for (int i=0; i<LEUBlock::COUNT_TYPE; i++)
+	{
+		block = (LEUBlock*)sampleBlocks->objectAtIndex(i);
+		if (block->getRect().containsPoint(m_tTouchPos))
+		{
+			if (blockSelected)
+			{
+				blockSelected->sprite->setOpacity(255);
+			}
+			blockSelected = block;
+			block->sprite->setOpacity(127);
+		}
+	}
+
+	// put block
+	if (blockSelected && CCRectMake(15,15,45*ScenePlay::COUNT_COL,45*ScenePlay::COUNT_ROW).containsPoint(m_tTouchPos))
+	{
+		int c = (m_tTouchPos.x-15)/45;
+		int r = (m_tTouchPos.y-15)/45;
+		if (!arena[c][r])
+		{
+			arena[c][r] = LEUBlock::create(blockSelected->type);
+			arena[c][r]->setPosition(c*45+35,r*45+35);
+			addChild(arena[c][r]);
+		}
+	}
+}
 // void SceneEditor::menuCloseCallback(CCObject* pSender)
 // {
 //     // "close" menu item clicked

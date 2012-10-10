@@ -18,15 +18,6 @@
     <None Include="res\LinkEmUp.ico">
       <Filter>resource</Filter>
     </None>
-    <None Include="..\Resources\CloseSelected.png">
-      <Filter>resource</Filter>
-    </None>
-    <None Include="..\Resources\CloseNormal.png">
-      <Filter>resource</Filter>
-    </None>
-    <None Include="..\Resources\HelloWorld.png">
-      <Filter>resource</Filter>
-    </None>
     <None Include="..\Resources\symbol1.png">
       <Filter>resource</Filter>
     </None>
@@ -61,9 +52,6 @@
     <ClInclude Include="..\Classes\ScenePlay.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\classes\Block.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ScenePlayClassic.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -77,6 +65,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SceneTitle.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\classes\LEUBlock.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -93,9 +84,6 @@
     <ClCompile Include="..\Classes\ScenePlay.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Block.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ScenePlayClassic.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -109,6 +97,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\SceneTitle.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LEUBlock.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

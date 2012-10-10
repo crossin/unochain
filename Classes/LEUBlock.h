@@ -3,22 +3,24 @@
 
 using namespace cocos2d;
 
-class Block :
+class LEUBlock :
 	public CCNode
 {
 public:
-	Block(void);
-	~Block(void);
+	LEUBlock(void);
+	~LEUBlock(void);
 
-	static Block* create(int tp=0);
+	static LEUBlock* create(int tp=0);
 	virtual bool init(int tp);
 	//CREATE_FUNC(Block);
+
+	static const int COUNT_TYPE = 3;
 
 	CCRect getRect();
 	void setCoord(int c, int r);
 	void moveToDest();
 	CCPoint getPosInGame();
-	void setPosAbove(Block* blk);
+	void setPosAbove(LEUBlock* blk);
 
 	CCSprite* sprite;
 	int type;

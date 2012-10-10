@@ -1,6 +1,6 @@
 #pragma once
 #include "cocos2d.h"
-#include "Block.h"
+#include "LEUBlock.h"
 
 using namespace cocos2d;
 
@@ -24,13 +24,13 @@ public:
 
 	virtual void clearChain();
 	void clearAndRefill(bool refillable);
-	void touchBlock(Block* block);
-	void clearBlock(Block* block, bool refillable);
+	void touchBlock(LEUBlock* block);
+	void clearBlock(LEUBlock* block, bool refillable);
 	void moveBlocks();
 	void checkNoMoves();
 	
 	
-	Block* arena[COUNT_COL][COUNT_ROW];
+	LEUBlock* arena[COUNT_COL][COUNT_ROW];
 	//Block* blockLast;
 	CCArray* chainSelected;
 

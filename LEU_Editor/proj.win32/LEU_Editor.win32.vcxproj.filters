@@ -18,15 +18,6 @@
     <None Include="res\LEU_Editor.ico">
       <Filter>resource</Filter>
     </None>
-    <None Include="..\Resources\CloseSelected.png">
-      <Filter>resource</Filter>
-    </None>
-    <None Include="..\Resources\CloseNormal.png">
-      <Filter>resource</Filter>
-    </None>
-    <None Include="..\Resources\HelloWorld.png">
-      <Filter>resource</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LEU_Editor.rc">
@@ -46,6 +37,9 @@
     <ClInclude Include="..\Classes\SceneEditor.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\classes\LEUBlock.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -55,6 +49,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\SceneEditor.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\LEUBlock.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
