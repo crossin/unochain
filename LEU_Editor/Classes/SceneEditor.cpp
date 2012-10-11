@@ -1,5 +1,6 @@
 #include "SceneEditor.h"
 #include "libxml/tree.h"
+#include "text_input_node/CCTextFieldTTF.h"
 
 using namespace cocos2d;
 
@@ -55,14 +56,21 @@ bool SceneEditor::init()
         //////////////////////////////////////////////////////////////////////////
 
 		// ui
+		txtFile = CCTextFieldTTF::textFieldWithPlaceHolder("level","Arial",20);
+		txtFile->setPosition(ccp(400, 240));
+		addChild(txtFile);
+		txtFile->attachWithIME();
 		
 		CCMenu* menu = CCMenu::create(NULL);
 		menu->setPosition(CCPointZero);
 		addChild(menu);
 		CCMenuItem* button;
-		button = CCMenuItemLabel::create(CCLabelTTF::create("SAVE", "Arial", 20), this, menu_selector(SceneEditor::buttonCallback));
+		button = CCMenuItemLabel::create(CCLabelTTF::create("LOAD", "Arial", 20), this, menu_selector(SceneEditor::buttonCallback));
 		button->setPosition(ccp(400, 200));
 		menu->addChild(button, 1, 1);
+		button = CCMenuItemLabel::create(CCLabelTTF::create("SAVE", "Arial", 20), this, menu_selector(SceneEditor::buttonCallback));
+		button->setPosition(ccp(400, 150));
+		menu->addChild(button, 1, 2);
 
 		CCSprite* pSprite;
 		for (int i = 0; i < ScenePlay::COUNT_COL; i++)
@@ -172,35 +180,54 @@ void SceneEditor::ccTouchesEnded( CCSet* touches, CCEvent* event )
 	}
 }
 
+void SceneEditor::buttonCallback( CCObject* pSender )
+{
+	switch ((((CCMenuItem*)pSender)->getTag()))
+	{
+	case 1:
+		loadFromFile();
+		break;
+	case 2:
+		saveToFile();
+		break;
+	}
+}
+
 bool SceneEditor::saveToFile()
 {
 	xmlDocPtr doc = xmlNewDoc(BAD_CAST"1.0");
 	xmlNodePtr root_node = xmlNewNode(NULL,BAD_CAST"level");
-
 	xmlDocSetRootElement(doc,root_node);
 
-
 	xmlNodePtr node;
-	//xmlNodePtr son_node;
 	xmlNodePtr content;
-	char number[4] = "101";
-	//CCMutableDictionary<std::string, CCString*>* dic;
-	//vector<std::string> vc;
-	//vector<std::string>::iterator it;
-	//string key;
 
 	// map
-	node = xmlNewNode(NULL,BAD_CAST"map");
+	char map[ScenePlay::COUNT_COL*ScenePlay::COUNT_ROW+1];
+	for (int i = 0; i < ScenePlay::COUNT_COL; i++)
+	{
+		for(int j = 0; j < ScenePlay::COUNT_ROW; j++)
+		{
+			if (arena[i][j])
+			{
+				map[i*ScenePlay::COUNT_ROW+j] = '0' + arena[i][j]->type;
+			} 
+			else
+			{
+				map[i*ScenePlay::COUNT_ROW+j] = '0';
+			}
+		}
+	}
+	map[ScenePlay::COUNT_COL*ScenePlay::COUNT_ROW] = '\0';
 
-	content = xmlNewText(BAD_CAST(number));
+	node = xmlNewNode(NULL,BAD_CAST"map");
+	content = xmlNewText(BAD_CAST(map));
 	xmlAddChild(root_node,node);
 	xmlAddChild(node,content);
 
 
-	char fname[32]="level.xml";
-// 	strcpy_s(fname, filename);
-// 	strcat_s(fname, ".xml");
-//	sprintf(fname, "level/%s.xml", filename);
+	char fname[32];
+	sprintf(fname, "level/%s.xml", txtFile->getString());
 	int nRel = xmlSaveFormatFileEnc(fname, doc, "UTF-8", 1);
 	if (nRel == -1)
 	{
@@ -212,9 +239,81 @@ bool SceneEditor::saveToFile()
 	return true;
 }
 
-void SceneEditor::buttonCallback( CCObject* pSender )
+bool SceneEditor::loadFromFile()
 {
-	saveToFile();
+	xmlDocPtr doc;           
+	xmlNodePtr curNode;
+
+	char fname[32];
+	sprintf(fname, "level/%s.xml", txtFile->getString());
+    
+	//doc = xmlReadFile(CCFileUtils::fullPathFromRelativePath(fname),"UTF-8",XML_PARSE_NOBLANKS);
+	doc = xmlReadFile(fname,"UTF-8",XML_PARSE_NOBLANKS);
+	/////////////////////////////////////////////////////////////////////////
+	// for android
+	// 	szDocName = CCFileUtils::fullPathFromRelativePath("level.xml");    
+	// 	CCFileData data(szDocName, "rt");
+	// 	unsigned long size = data.getSize();
+	// 	char *pBuffer = (char*) data.getBuffer();
+	// 	doc = xmlReadMemory(pBuffer, size, NULL, "UTF-8", XML_PARSE_NOBLANKS);
+	//////////////////////////////////////////////////////////////////////////
+	if (NULL == doc)
+	{
+		return false;
+	}
+
+	curNode = xmlDocGetRootElement(doc); 
+	if (NULL == curNode)
+	{
+		xmlFreeDoc(doc);
+		return false;
+	}
+
+	if (xmlStrcmp(curNode->name, BAD_CAST "level"))
+	{
+		xmlFreeDoc(doc);
+		return false;
+	}
+
+	curNode = curNode->xmlChildrenNode;
+	
+	while(curNode != NULL)
+	{
+		
+		// get map
+		if (!xmlStrcmp(curNode->name, (const xmlChar *)"map"))
+		{
+			CCString* str = new CCString((const char*)xmlNodeGetContent(curNode));
+			const char* map = str->getCString();
+			int tp;
+			for (int i = 0; i < ScenePlay::COUNT_COL; i++)
+			{
+				for(int j = 0; j < ScenePlay::COUNT_ROW; j++)
+				{
+					if (arena[i][j])
+					{
+						removeChild(arena[i][j], true);
+						arena[i][j] = NULL;
+					}
+					tp = map[i*ScenePlay::COUNT_ROW+j] - '0';
+					if (tp > 0)
+					{
+						arena[i][j] = LEUBlock::create(tp);
+						arena[i][j]->setPosition(i*45+35,j*45+35);
+						addChild(arena[i][j]);
+					} 
+				}
+			}
+			str->release();
+		}
+
+		
+		curNode = curNode->next;
+	}
+
+	xmlFreeDoc(doc);
+
+	return true;
 }
 
 // void SceneEditor::menuCloseCallback(CCObject* pSender)
