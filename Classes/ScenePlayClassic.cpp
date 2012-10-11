@@ -12,7 +12,7 @@ ScenePlayClassic::~ScenePlayClassic(void)
 }
 
 
-CCScene* ScenePlayClassic::scene()
+CCScene* ScenePlayClassic::scene(char* filename)
 {
 	CCScene * scene = NULL;
 	do 
@@ -22,6 +22,7 @@ CCScene* ScenePlayClassic::scene()
 
 		ScenePlayClassic *layer = ScenePlayClassic::create();
 		CC_BREAK_IF(! layer);
+		layer->loadMap(filename);
 
 		scene->addChild(layer);
 	} while (0);

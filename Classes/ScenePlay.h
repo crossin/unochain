@@ -22,13 +22,13 @@ public:
 	void ccTouchesMoved(CCSet* touches, CCEvent* event);
 	void ccTouchesEnded(CCSet* touches, CCEvent* event);
 
+	void loadMap(char* filename);
 	virtual void clearChain();
 	void clearAndRefill(bool refillable);
 	void touchBlock(LEUBlock* block);
 	void clearBlock(LEUBlock* block, bool refillable);
 	void moveBlocks();
 	void checkNoMoves();
-	
 	
 	LEUBlock* arena[COUNT_COL][COUNT_ROW];
 	//Block* blockLast;

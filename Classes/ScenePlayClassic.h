@@ -8,7 +8,7 @@ public:
 	~ScenePlayClassic(void);
 
 	virtual bool init();  
-	static CCScene* scene();
+	static CCScene* scene(char* filename = "level/001.xml");
 	CREATE_FUNC(ScenePlayClassic);
 
 	void update(float dt);
