@@ -28,11 +28,14 @@ public:
 	void ccTouchesEnded( CCSet* touches, CCEvent* event );
 	void buttonCallback(CCObject* pSender);
 
+	bool loadFromFile();
 	bool saveToFile();
 
 	LEUBlock* arena[ScenePlay::COUNT_COL][ScenePlay::COUNT_ROW];
 	CCArray* sampleBlocks;
 	LEUBlock* blockSelected;
+	CCTextFieldTTF* txtFile;
 };
 
 #endif  // __HELLOWORLD_SCENE_H__
+
