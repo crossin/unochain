@@ -1,5 +1,6 @@
 #include "ScenePlay.h"
 #include "SceneEnd.h"
+#include "libxml\tree.h"
 
 ScenePlay::ScenePlay(void)
 {
@@ -41,18 +42,18 @@ bool ScenePlay::init()
 		srand(time(0)); 
 
 		// init game
-		LEUBlock* pSymbol;
-		for (int i = 0; i < COUNT_COL; i++)
-		{
-			for(int j = 0; j < COUNT_ROW; j++)
-			{
-				pSymbol = LEUBlock::create();
-				CC_BREAK_IF(!pSymbol);
-				pSymbol->setCoord(i, j);
-				addChild(pSymbol);
-				arena[i][j] = pSymbol;
-			}
-		}
+// 		LEUBlock* pSymbol;
+// 		for (int i = 0; i < COUNT_COL; i++)
+// 		{
+// 			for(int j = 0; j < COUNT_ROW; j++)
+// 			{
+// 				pSymbol = LEUBlock::create();
+// 				CC_BREAK_IF(!pSymbol);
+// 				pSymbol->setCoord(i, j);
+// 				addChild(pSymbol);
+// 				arena[i][j] = pSymbol;
+// 			}
+// 		}
 
 		chainSelected = CCArray::create();
 		chainSelected->retain();
@@ -261,6 +262,67 @@ void ScenePlay::checkNoMoves()
 	}
 	// mo move
 	CCDirector::sharedDirector()->replaceScene(SceneEnd::scene());
+}
+
+void ScenePlay::loadMap( char* filename )
+{
+	xmlDocPtr doc;           
+	xmlNodePtr curNode;
+
+	doc = xmlReadFile(filename,"UTF-8",XML_PARSE_NOBLANKS);
+
+	if (NULL == doc)
+	{
+		return;
+	}
+
+	curNode = xmlDocGetRootElement(doc); 
+	if (NULL == curNode)
+	{
+		xmlFreeDoc(doc);
+		return;
+	}
+
+	if (xmlStrcmp(curNode->name, BAD_CAST "level"))
+	{
+		xmlFreeDoc(doc);
+		return;
+	}
+
+	curNode = curNode->xmlChildrenNode;
+
+	while(curNode != NULL)
+	{
+
+		// get map
+		if (!xmlStrcmp(curNode->name, (const xmlChar *)"map"))
+		{
+			CCString* str = new CCString((const char*)xmlNodeGetContent(curNode));
+			const char* map = str->getCString();
+			int tp;
+			for (int i = 0; i < ScenePlay::COUNT_COL; i++)
+			{
+				for(int j = 0; j < ScenePlay::COUNT_ROW; j++)
+				{
+					if (arena[i][j])
+					{
+						removeChild(arena[i][j], true);
+						arena[i][j] = NULL;
+					}
+					tp = map[i*ScenePlay::COUNT_ROW+j] - '0';
+					arena[i][j] = LEUBlock::create(tp);
+					arena[i][j]->setCoord(i, j);
+					addChild(arena[i][j]);
+				}
+			}
+			str->release();
+		}
+
+
+		curNode = curNode->next;
+	}
+
+	xmlFreeDoc(doc);
 }
 
 
