@@ -2,8 +2,6 @@
 #include "libxml/tree.h"
 #include "text_input_node/CCTextFieldTTF.h"
 
-using namespace cocos2d;
-
 SceneEditor::SceneEditor(void)
 {
 }
