@@ -3,15 +3,17 @@
 
 using namespace cocos2d;
 
-class SceneMenuClassic :
+class SceneChapter :
 	public CCLayer
 {
 public:
-	SceneMenuClassic(void);
-	~SceneMenuClassic(void);
+	SceneChapter(void);
+	~SceneChapter(void);
 
 	virtual bool init();  
 	static cocos2d::CCScene* scene();
-	CREATE_FUNC(SceneMenuClassic);
+	CREATE_FUNC(SceneChapter);
+
+	void buttonCallback(CCObject* pSender);
 };
 

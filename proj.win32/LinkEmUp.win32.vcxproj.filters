@@ -52,9 +52,6 @@
     <ClInclude Include="..\Classes\ScenePlay.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ScenePlayClassic.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ScenePlayPuzzle.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -70,7 +67,13 @@
     <ClInclude Include="..\classes\LEUBlock.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\SceneMenuClassic.h">
+    <ClInclude Include="..\Classes\SceneChapter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ScenePlayStory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SceneLevel.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -85,9 +88,6 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ScenePlay.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ScenePlayClassic.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ScenePlayPuzzle.cpp">
@@ -105,7 +105,13 @@
     <ClCompile Include="..\Classes\LEUBlock.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\SceneMenuClassic.cpp">
+    <ClCompile Include="..\Classes\SceneChapter.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ScenePlayStory.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SceneLevel.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

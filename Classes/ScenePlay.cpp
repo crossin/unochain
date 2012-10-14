@@ -300,16 +300,16 @@ void ScenePlay::loadMap( char* filename )
 			CCString* str = new CCString((const char*)xmlNodeGetContent(curNode));
 			const char* map = str->getCString();
 			int tp;
-			for (int i = 0; i < ScenePlay::COUNT_COL; i++)
+			for (int i = 0; i < COUNT_COL; i++)
 			{
-				for(int j = 0; j < ScenePlay::COUNT_ROW; j++)
+				for(int j = 0; j < COUNT_ROW; j++)
 				{
 					if (arena[i][j])
 					{
 						removeChild(arena[i][j], true);
 						arena[i][j] = NULL;
 					}
-					tp = map[i*ScenePlay::COUNT_ROW+j] - '0';
+					tp = map[i*COUNT_ROW+j] - '0';
 					arena[i][j] = LEUBlock::create(tp);
 					arena[i][j]->setCoord(i, j);
 					addChild(arena[i][j]);

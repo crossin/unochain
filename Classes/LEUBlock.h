@@ -15,6 +15,7 @@ public:
 	//CREATE_FUNC(Block);
 
 	static const int COUNT_TYPE = 3;
+	static const int GRID_LENGTH = 45;
 
 	CCRect getRect();
 	void setCoord(int c, int r);
