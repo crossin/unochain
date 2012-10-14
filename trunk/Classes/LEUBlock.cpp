@@ -75,11 +75,11 @@ void LEUBlock::moveToDest()
 
 CCPoint LEUBlock::getPosInGame()
 {
-	return ccp(col*45+25, row*45+20);
+	return ccp(col*GRID_LENGTH+25, row*GRID_LENGTH+20);
 }
 
 void LEUBlock::setPosAbove( LEUBlock* blk )
 {
 	int yBase = blk->getPositionY();
-	setPositionY(yBase>(ScenePlay::COUNT_ROW-1)*45+20 ? yBase+55 : yBase+90);
+	setPositionY(yBase>(ScenePlay::COUNT_ROW-1)*GRID_LENGTH+20 ? yBase+55 : yBase+90);
 }

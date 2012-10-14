@@ -134,10 +134,11 @@
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\SceneEnd.h" />
-    <ClInclude Include="..\Classes\SceneMenuClassic.h" />
+    <ClInclude Include="..\Classes\SceneChapter.h" />
+    <ClInclude Include="..\Classes\SceneLevel.h" />
     <ClInclude Include="..\Classes\ScenePlay.h" />
     <ClInclude Include="..\classes\LEUBlock.h" />
-    <ClInclude Include="..\Classes\ScenePlayClassic.h" />
+    <ClInclude Include="..\Classes\ScenePlayStory.h" />
     <ClInclude Include="..\Classes\ScenePlayEndless.h" />
     <ClInclude Include="..\Classes\ScenePlayPuzzle.h" />
     <ClInclude Include="..\Classes\ScenePlayRace.h" />
@@ -148,10 +149,11 @@
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\SceneEnd.cpp" />
-    <ClCompile Include="..\Classes\SceneMenuClassic.cpp" />
+    <ClCompile Include="..\Classes\SceneChapter.cpp" />
+    <ClCompile Include="..\Classes\SceneLevel.cpp" />
     <ClCompile Include="..\Classes\ScenePlay.cpp" />
     <ClCompile Include="..\Classes\LEUBlock.cpp" />
-    <ClCompile Include="..\Classes\ScenePlayClassic.cpp" />
+    <ClCompile Include="..\Classes\ScenePlayStory.cpp" />
     <ClCompile Include="..\Classes\ScenePlayEndless.cpp" />
     <ClCompile Include="..\Classes\ScenePlayPuzzle.cpp" />
     <ClCompile Include="..\Classes\ScenePlayRace.cpp" />

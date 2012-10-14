@@ -1,5 +1,5 @@
 #include "SceneTitle.h"
-#include "ScenePlayClassic.h"
+#include "SceneChapter.h"
 #include "ScenePlayPuzzle.h"
 #include "ScenePlayRace.h"
 #include "ScenePlayEndless.h"
@@ -49,7 +49,7 @@ bool SceneTitle::init()
 		menu->setPosition(CCPointZero);
 		addChild(menu);
 		CCMenuItem* button;
-		button = CCMenuItemLabel::create(CCLabelTTF::create("CLASSIC", "Arial", 20), this, menu_selector(SceneTitle::buttonCallback));
+		button = CCMenuItemLabel::create(CCLabelTTF::create("STORY", "Arial", 20), this, menu_selector(SceneTitle::buttonCallback));
 		button->setPosition(ccp(160, 200));
 		menu->addChild(button, 1, 1);
 		button = CCMenuItemLabel::create(CCLabelTTF::create("PUZZLE", "Arial", 20), this, menu_selector(SceneTitle::buttonCallback));
@@ -65,10 +65,6 @@ bool SceneTitle::init()
 		bRet = true;
 	} while (0);
 
-	setTouchEnabled(true);
-
-	scheduleUpdate();
-
 	return bRet;
 }
 
@@ -77,7 +73,7 @@ void SceneTitle::buttonCallback(CCObject* pSender)
 	switch (((CCMenuItem*)pSender)->getTag())
 	{
 	case 1:
-		CCDirector::sharedDirector()->replaceScene(ScenePlayClassic::scene());
+		CCDirector::sharedDirector()->replaceScene(SceneChapter::scene());
 		break;
 	case 2:
 		CCDirector::sharedDirector()->replaceScene(ScenePlayPuzzle::scene());
